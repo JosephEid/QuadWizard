@@ -38,7 +38,8 @@ func _ready():
 	var get_goal_coords = map_to_world(goal_x, 0, goal_z)
 	goal.global_transform.origin = Vector3(get_goal_coords.x, get_goal_coords.y, get_goal_coords.z)
 	print (goal.global_transform.origin)
-	
+
+			
 func prims_algorithm(starting_cell) -> void:
 	#Initialize start by selecting a random starting cell.
 	var wall_list = []
