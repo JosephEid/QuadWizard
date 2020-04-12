@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="SphereShape" id=3]
+
+[sub_resource type="SphereMesh" id=4]
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.403922, 0.388235, 0.027451, 1 )
+
+[node name="Goal" type="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.7429, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )

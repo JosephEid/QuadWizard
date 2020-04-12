@@ -1,0 +1,5 @@
+/home/joseph/MazeGameGODOT/start/.mono/temp/bin/Tools/QuadWizard.dll
+/home/joseph/MazeGameGODOT/start/.mono/temp/bin/Tools/QuadWizard.pdb
+/home/joseph/MazeGameGODOT/start/.mono/temp/obj/Tools/QuadWizard.csprojAssemblyReference.cache
+/home/joseph/MazeGameGODOT/start/.mono/temp/obj/Tools/QuadWizard.dll
+/home/joseph/MazeGameGODOT/start/.mono/temp/obj/Tools/QuadWizard.pdb
