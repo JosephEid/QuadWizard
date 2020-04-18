@@ -14,10 +14,11 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0889042, 1.90539, -0.0359918 )
 shape = SubResource( 1 )
 
-[node name="Body" parent="." instance=ExtResource( 2 )]
-transform = Transform( -1.14044e-07, 0, 0.7, 0, 0.7, 0, -0.7, 0, -1.14044e-07, 0, 0, 0 )
-
 [node name="Pivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4.5, 2 )
 
 [node name="Camera" type="Camera" parent="Pivot"]
+fov = 68.2
+
+[node name="Body" parent="." instance=ExtResource( 2 )]
+transform = Transform( -0.7, 0, -2.28089e-07, 0, 0.7, 0, 2.28089e-07, 0, -0.7, 0, 0, 0 )

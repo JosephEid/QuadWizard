@@ -5,6 +5,7 @@ extends GridMap
 onready var player = get_node("/root/Game/Player")
 onready var goal = get_node("../Goal")
 var rand = RandomNumberGenerator.new()
+var wall_y = 4
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,40 +13,45 @@ func _ready():
 	#Plot a grid of cells seperated by walls
 	for x in range(-25, 26, 2):
 		for z in range (-25, 26):
-			set_cell_item(x,0,z,0)
+			set_cell_item(x,wall_y,z,0)
 	for z in range(-25, 26, 2):
 		for x in range (-25, 26):
-			set_cell_item(x,0,z,0)
+			set_cell_item(x,wall_y,z,0)
 	rand.randomize()
 	var rand_x = rand.randi_range(-12, 12) * 2
+	rand.randomize()
 	var rand_z = rand.randi_range(-12, 12) * 2
-	var starting_cell = Vector3(rand_x, 0, rand_z)
+	var starting_cell = Vector3(rand_x, wall_y, rand_z)
 	
 	#Start a randomized prim's algorithm to generate paths through the walls
 	prims_algorithm(starting_cell)
-	
+	print ("I am mazes, cell 12, 20 is the coord: " + str(map_to_world(12, 0, 20)))
 	for x in range(-24, 26, 2):
 		for z in range(-24, 26, 2):
-			if (get_surrounding_walls(Vector3(x, 0, z)).size() == 3):
+			
+			var get_walls = get_surrounding_walls(Vector3(x, 0, z))
+			
+			if (get_walls[1] == 3):
+					
 				rand.randomize()
 				var rand_number = rand.randi_range(0, 100)
-				if (rand_number <= 5):
-					set_cell_item(x, 0, z, 1)
-	
+				if (rand_number <= 50):
+					
+					set_cell_item(x, 0, z, 2, 0)
+
 	rand.randomize()
 	var goal_x = rand.randi_range(-12, 12) * 2
+	rand.randomize()
 	var goal_z = rand.randi_range(-12, 12) * 2
 	var get_goal_coords = map_to_world(goal_x, 0, goal_z)
 	goal.global_transform.origin = Vector3(get_goal_coords.x, get_goal_coords.y, get_goal_coords.z)
-	print (goal.global_transform.origin)
-
 			
 func prims_algorithm(starting_cell) -> void:
 	#Initialize start by selecting a random starting cell.
 	var wall_list = []
 	print (starting_cell)
-	var starting_cell_walls = get_surrounding_walls(starting_cell)
-	var get_coords = map_to_world(starting_cell.x, 0, starting_cell.z)
+	var starting_cell_walls = get_surrounding_walls(starting_cell)[0]
+	var get_coords = map_to_world(starting_cell.x, 1, starting_cell.z)
 	print (get_coords)
 	player.global_transform.origin = Vector3(get_coords.x,0,get_coords.z)
 	#Add the walls surrounding the starting cell to the list of walls.
@@ -63,13 +69,13 @@ func prims_algorithm(starting_cell) -> void:
 		
 		if (visited_cells.has(adj_cells[0]) && !visited_cells.has(adj_cells[1])):
 			visited_cells.append(adj_cells[1])
-			var cell_walls = get_surrounding_walls(adj_cells[1])
+			var cell_walls = get_surrounding_walls(adj_cells[1])[0]
 			for i in range(len(cell_walls)):
 				wall_list.append(cell_walls[i])
 			set_cell_item(wall_coords.x, wall_coords.y, wall_coords.z, -1)
 		elif (visited_cells.has(adj_cells[1]) && !visited_cells.has(adj_cells[0])):
 			visited_cells.append(adj_cells[0])
-			var cell_walls = get_surrounding_walls(adj_cells[0])
+			var cell_walls = get_surrounding_walls(adj_cells[0])[0]
 			for i in range(len(cell_walls)):
 				wall_list.append(cell_walls[i])
 			set_cell_item(wall_coords.x, wall_coords.y, wall_coords.z, -1)
@@ -86,25 +92,30 @@ func get_adj_cells(wall):
 	var z = wall_coords[2]
 	
 	if (wall_ori == "r" || wall_ori == "l"):
-		return [Vector3(x-1, 0, z), Vector3(x+1, 0, z)]
+		return [Vector3(x-1, wall_y, z), Vector3(x+1, wall_y, z)]
 	else:
-		return [Vector3(x, 0, z-1), Vector3(x, 0, z+1)]
+		return [Vector3(x, wall_y, z-1), Vector3(x, wall_y, z+1)]
 	
 func get_surrounding_walls(cell):
 	var x = cell[0]
 	var z = cell[2]
 	var neighbours = []
-	if (get_cell_item(x+1, 0, z) == 0):
+	var count = 0
+	if (get_cell_item(x+1, wall_y, z) == 0):
+		count += 1
 		if (x+1 != 25):
-			neighbours.append([Vector3(x+1, 0, z), "r"])
-	if (get_cell_item(x-1, 0, z) == 0):
+			neighbours.append([Vector3(x+1, wall_y, z), "r"])
+	if (get_cell_item(x-1, wall_y, z) == 0):
+		count += 1
 		if (x-1 != -25):
-			neighbours.append([Vector3(x-1, 0, z), "l"])
-	if (get_cell_item(x, 0, z+1) == 0):
+			neighbours.append([Vector3(x-1, wall_y, z), "l"])
+	if (get_cell_item(x, wall_y, z+1) == 0):
+		count += 1
 		if (z+1 != 25):
-			neighbours.append([Vector3(x, 0, z+1), "u"])
-	if (get_cell_item(x, 0, z-1) == 0):
+			neighbours.append([Vector3(x, wall_y, z+1), "u"])
+	if (get_cell_item(x, wall_y, z-1) == 0):
+		count += 1
 		if (z-1 != -25):
-			neighbours.append([Vector3(x, 0, z-1), "d"])
+			neighbours.append([Vector3(x, wall_y, z-1), "d"])
 	
-	return (neighbours)
+	return ([neighbours, count])
