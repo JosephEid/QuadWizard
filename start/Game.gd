@@ -11,6 +11,7 @@ func _process(delta : float) -> void:
 
 
 func _on_Level1_level_completed():
+	print("here")
 	var total_play_time = play_time
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	player.queue_free()

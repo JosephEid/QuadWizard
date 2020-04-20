@@ -29,4 +29,5 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="level_completed" from="Level1" to="." method="_on_Level1_level_completed"]
 [connection signal="retried" from="FinalMenu" to="." method="_on_FinalMenu_retried"]

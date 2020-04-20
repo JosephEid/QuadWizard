@@ -33,7 +33,8 @@ func _input(event):
 	if Input.is_action_just_pressed("mark"):
 		var player_coords = player.global_transform.origin
 		var current_cell = maze.world_to_map(Vector3(player_coords.x, 0, player_coords.z))
-		maze.set_cell_item(current_cell.x, 0, current_cell.z, 1)
+		maze.set_cell_item(current_cell.x, 0, current_cell.z, 1, 6)
+		print(maze.get_cell_item_orientation(current_cell.x, 0, current_cell.z))
 		
 	jump = false
 	if Input.is_action_just_pressed("jump"):
@@ -41,10 +42,10 @@ func _input(event):
 		
 func _physics_process(delta : float) -> void:
 	cooldown -= 1
-	vel.y += gravity * delta
-	
-	if jump && is_on_floor():
-		vel.y = jump_speed
+#	vel.y += gravity * delta
+#
+#	if jump && is_on_floor():
+#		vel.y = jump_speed
 		
 	var target_dir = Vector2(0, 0)
 	
