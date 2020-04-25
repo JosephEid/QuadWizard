@@ -16,6 +16,7 @@ onready var maze = get_node("/root/Game/Level1/Maze")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+#	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -42,10 +43,10 @@ func _input(event):
 		
 func _physics_process(delta : float) -> void:
 	cooldown -= 1
-#	vel.y += gravity * delta
-#
-#	if jump && is_on_floor():
-#		vel.y = jump_speed
+	vel.y += gravity * delta
+
+	if jump && is_on_floor():
+		vel.y = jump_speed
 		
 	var target_dir = Vector2(0, 0)
 	
@@ -66,8 +67,8 @@ func _physics_process(delta : float) -> void:
 	
 	if (Input.is_action_pressed("forward") || Input.is_action_pressed("backward") 
 		|| Input.is_action_pressed("left") || Input.is_action_pressed("right")):
-		$Body.anim("Run")
-	else:
-		$Body.anim("Idle")
+		$TESTCHARACTER.anim("Run")
+#	else:
+#		$Body.anim("Idle")
 		
 	move_and_slide(vel, Vector3(0, 1, 0))

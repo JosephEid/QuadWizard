@@ -23,7 +23,7 @@ func _ready():
 	var starting_cell = Vector3(rand_x, wall_y, rand_z)
 
 	var get_coords = map_to_world(starting_cell.x, 1, starting_cell.z)
-	player.global_transform.origin = Vector3(get_coords.x,10,get_coords.z)
+	player.global_transform.origin = Vector3(get_coords.x,0,get_coords.z)
 	
 	recursive_backtracker(starting_cell)
 	
@@ -57,11 +57,22 @@ func recursive_backtracker(starting_cell) -> void:
 			visited.append(random[0])
 			stack.push_front(random[0])
 		else:
-			if get_surrounding_walls(current_cell).size() == 3:
-				rand.randomize()
-				var rand_number = rand.randi_range(0, 100)
-				if (rand_number <= 50):
-					set_cell_item(current_cell.x, 0, current_cell.z, 2)
+			rand.randomize()
+			var rand_number = rand.randi_range(0, 100)
+			if (rand_number <= 10):
+				var walls = get_surrounding_walls(current_cell)
+				if walls.size() == 3:
+					var orient = []
+					for i in range(walls.size()):
+						orient.append(walls[i][1])
+					if !orient.has("r"):
+						set_cell_item(current_cell.x, 0, current_cell.z, 2, 0) #0 = 0
+					elif !orient.has("l"):
+						set_cell_item(current_cell.x, 0, current_cell.z, 2, 2) #2 = 180
+					elif !orient.has("u"):
+						set_cell_item(current_cell.x, 0, current_cell.z, 2, 22) #22 = -90
+					elif !orient.has("d"):
+						set_cell_item(current_cell.x, 0, current_cell.z, 2, 16) #16 = 90
 
 
 func remove_wall(current, neighbour):
@@ -102,16 +113,16 @@ func get_surrounding_walls(cell):
 	var neighbours = []
 	
 	if (get_cell_item(x+1, wall_y, z) == 0):
-		if (x+1 != 25):
+		if (x+1 < 26):
 			neighbours.append([Vector3(x+1, wall_y, z), "r"])
 	if (get_cell_item(x-1, wall_y, z) == 0):
-		if (x-1 != -25):
+		if (x-1 > -26):
 			neighbours.append([Vector3(x-1, wall_y, z), "l"])
 	if (get_cell_item(x, wall_y, z+1) == 0):
-		if (z+1 != 25):
+		if (z+1 < 26):
 			neighbours.append([Vector3(x, wall_y, z+1), "u"])
 	if (get_cell_item(x, wall_y, z-1) == 0):
-		if (z-1 != -25):
+		if (z-1 > -26):
 			neighbours.append([Vector3(x, wall_y, z-1), "d"])
 	
 	return (neighbours)
