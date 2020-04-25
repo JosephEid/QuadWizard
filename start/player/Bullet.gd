@@ -19,8 +19,10 @@ func start(xform):
 
 func _process(delta):
 	transform.origin += velocity * delta
-
+	pass
+	
 func _on_Bullet_body_entered(body):
+	print("Bullet collided")
 	if body is StaticBody:
 		print("here")
 		#queue_free()

@@ -3,6 +3,8 @@ extends GridMap
 # Declare member variables here
 onready var player = get_node("/root/Game/Player")
 onready var goal = get_node("../Goal")
+#const ENEMY = preload("res://player/TESTENEMY.tscn")
+
 var rand = RandomNumberGenerator.new()
 var wall_y = 4
 
@@ -28,7 +30,20 @@ func _ready():
 	recursive_backtracker(starting_cell)
 	
 	set_goal()
-
+	
+func add_enemy(enemy):
+	
+	rand.randomize()
+	var rand_x = rand.randi_range(-12, 12) * 2
+	rand.randomize()
+	var rand_z = rand.randi_range(-12, 12) * 2
+	var starting_cell = Vector3(rand_x, wall_y, rand_z)
+	var get_coords = map_to_world(starting_cell.x, 1, starting_cell.z)
+	get_parent().add_child(enemy)
+	enemy.global_transform.origin = Vector3(get_coords.x, 0, get_coords.z)
+	print(enemy.global_transform.origin)
+	
+	
 func set_goal():
 	rand.randomize()
 	var goal_x = rand.randi_range(-12, 12) * 2

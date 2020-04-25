@@ -22,7 +22,7 @@ bones/14/bound_children = [ NodePath("Wand") ]
 material/0 = SubResource( 3 )
 
 [node name="Wand" type="BoneAttachment" parent="metarig/Skeleton" index="1"]
-transform = Transform( 0.0433175, 0.113389, 0.992606, 0.983298, 0.170958, -0.0624404, -0.176773, 0.978732, -0.104089, -0.143266, 1.59151, 0.582 )
+transform = Transform( 0.0433174, 0.113389, 0.992606, 0.983298, 0.170958, -0.0624403, -0.176773, 0.978732, -0.10409, -0.143265, 1.59151, 0.582 )
 bone_name = "hand_r"
 
 [node name="WandBody" type="MeshInstance" parent="metarig/Skeleton/Wand" index="0"]

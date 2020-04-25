@@ -1,7 +1,6 @@
 extends KinematicBody
 class_name Player
 
-
 var sens = 0.2
 var accel = 8
 var speed = 8
@@ -9,7 +8,8 @@ var vel = Vector3()
 var jump_speed = 12
 var gravity = -30
 var jump = false
-var cooldown = 100
+var cooldown = 0
+var health = 100
 
 onready var player = get_node(".")
 onready var maze = get_node("/root/Game/Level1/Maze")
@@ -17,19 +17,15 @@ onready var maze = get_node("/root/Game/Level1/Maze")
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 #	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+
+const SPELL = preload("res://player/Bullet.tscn")
 	
 func _input(event):
 	if event is InputEventMouseMotion:
 		var movement = event.relative
 		rotation.y += -deg2rad(movement.x * sens)
-		$Pivot.rotation.x += -deg2rad(movement.y * sens)
-		$Pivot.rotation.x = clamp($Pivot.rotation.x, -1.2, 1.2)
-	
-#	if Input.is_action_just_pressed("cast"):
-#		var spell = SPELL.instance()
-#		spell.start($Position3D.global_transform)
-#		get_parent().add_child(spell)
-#		print ("cast!!!")
+		$Camera.rotation.x += -deg2rad(movement.y * sens)
+		$Camera.rotation.x = clamp($Camera.rotation.x, -1.2, 1.2)
 
 	if Input.is_action_just_pressed("mark"):
 		var player_coords = player.global_transform.origin
@@ -40,13 +36,22 @@ func _input(event):
 	jump = false
 	if Input.is_action_just_pressed("jump"):
 		jump = true
+	
+	if Input.is_action_just_pressed("cast") and !cooldown:
+		var spell = SPELL.instance()
+		spell.start($"TESTCHARACTER/metarig/Skeleton/Wand/WandBody/Position3D".global_transform)
+		get_parent().get_parent().add_child(spell)
+		$TESTCHARACTER.anim("Cast")
+		cooldown = 100
 		
 func _physics_process(delta : float) -> void:
+	
 	cooldown -= 1
-	vel.y += gravity * delta
-
-	if jump && is_on_floor():
-		vel.y = jump_speed
+	cooldown = clamp(cooldown, 0, 100)
+#	vel.y += gravity * delta
+#
+#	if jump && is_on_floor():
+#		vel.y = jump_speed
 		
 	var target_dir = Vector2(0, 0)
 	
@@ -72,3 +77,7 @@ func _physics_process(delta : float) -> void:
 #		$Body.anim("Idle")
 		
 	move_and_slide(vel, Vector3(0, 1, 0))
+
+func get_health():
+	
+	return health
