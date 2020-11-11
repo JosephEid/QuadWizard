@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://interface/fonts/montserrat_eb_48.tres" type="DynamicFont" id=1]
+[ext_resource path="res://interface/fonts/Montserrat-ExtraBold.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://interface/fonts/montserrat_eb_32.tres" type="DynamicFont" id=3]
+[ext_resource path="res://interface/FinalMenu.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 2 )
+
+[node name="FinalMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.29236
+margin_top = -7.75415
+margin_right = 1.29236
+margin_bottom = -7.75415
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Column" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 453.0
+margin_top = 273.0
+margin_right = 826.0
+margin_bottom = 447.0
+
+[node name="Title" type="Label" parent="CenterContainer/Column"]
+margin_right = 373.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 1 )
+text = "Success!"
+align = 1
+
+[node name="Time" type="Label" parent="CenterContainer/Column"]
+margin_top = 64.0
+margin_right = 373.0
+margin_bottom = 104.0
+custom_fonts/font = SubResource( 1 )
+text = "Your time was: 1m 25s"
+
+[node name="Row" type="HBoxContainer" parent="CenterContainer/Column"]
+margin_top = 108.0
+margin_right = 373.0
+margin_bottom = 174.0
+
+[node name="TryAgain" type="Button" parent="CenterContainer/Column/Row"]
+margin_right = 249.0
+margin_bottom = 66.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Try again"
+
+[node name="Exit" type="Button" parent="CenterContainer/Column/Row"]
+margin_left = 253.0
+margin_right = 373.0
+margin_bottom = 66.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 3 )
+text = "Exit"
+[connection signal="pressed" from="CenterContainer/Column/Row/TryAgain" to="." method="_on_TryAgain_pressed"]
+[connection signal="pressed" from="CenterContainer/Column/Row/Exit" to="." method="_on_Exit_pressed"]

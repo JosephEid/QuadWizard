@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://player/Player.gd" type="Script" id=1]
+[ext_resource path="res://player/crosshairs.png" type="Texture" id=3]
+[ext_resource path="res://player/TESTCHARACTER.tscn" type="PackedScene" id=4]
+[ext_resource path="res://player/TESTCHARACTER.gd" type="Script" id=5]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.5, 1.2, 0.6 )
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0889042, 1.20772, -0.273341 )
+shape = SubResource( 1 )
+
+[node name="TESTCHARACTER" parent="." instance=ExtResource( 4 )]
+transform = Transform( -1.2, 0, -4.67297e-07, 0, 1.2, 0, 4.67297e-07, 0, -1.2, 0, 0, 0 )
+script = ExtResource( 5 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.34015, -0.175444 )
+fov = 78.2
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 640, 360 )
+scale = Vector2( 0.022054, 0.0190975 )
+texture = ExtResource( 3 )
